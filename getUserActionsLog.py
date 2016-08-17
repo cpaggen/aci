@@ -7,7 +7,7 @@
 # For sake of clarity, I chose to break down the code in distinct functions
 #
 # Also, there's a simpler way to check whether a given user exists on ACI
-# I could just ask the API directly rather tha testing the value of totalCount
+# I could just ask the API directly rather than testing the value of totalCount
 #
 # to do: find actions for a given session ID
 #   logged in sessions /api/node/class/aaaSessionLR.json? \
