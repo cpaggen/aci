@@ -26,7 +26,7 @@ http_header={"User-Agent" : "Chrome/17.0.963.46",
             }
 
 def getAPICCookie(ip_addr, username, password):
-    url = 'http://'+ip_addr+'/api/aaaLogin.xml'
+    url = 'https://'+ip_addr+'/api/aaaLogin.xml'
 
     http_header["Host"]=ip_addr
     xml_string = "<aaaUser name='%s' pwd='%s'/>" % (username, password)
@@ -39,19 +39,19 @@ def getAPICCookie(ip_addr, username, password):
 
 
 def sendAPICRequest(ip_addr, cookie, apicurl, data):
-    url = 'http://'+ip_addr+apicurl
+    url = 'https://'+ip_addr+apicurl
     http_header["Host"]=ip_addr
     cookies = {}
     cookies['APIC-cookie'] = cookie
-    req = requests.post(url,data=data,headers=http_header,cookies=cookies)
+    req = requests.post(url,data=data,headers=http_header,cookies=cookies, verify=False)
     return req.text
 
 def verifyUser(ip_addr, cookie, apicurl):
-    url = 'http://'+ip_addr+apicurl
+    url = 'https://'+ip_addr+apicurl
     http_header["Host"]=ip_addr
     cookies = {}
     cookies['APIC-cookie'] = cookie
-    req = requests.get(url,headers=http_header,cookies=cookies)
+    req = requests.get(url,headers=http_header,cookies=cookies, verify=False)
     parsed_json = json.loads(req.text)
     userExists = int(parsed_json['totalCount'])
     # whether the user exists or not, the HTTP return code is 200 anyway
@@ -68,7 +68,7 @@ def getUserActionsLog(ip_addr, cookie, userid):
     http_header["Host"] = ip_addr
     cookies = {}
     cookies['APIC-cookie'] = cookie
-    req = requests.get(url, headers=http_header, cookies=cookies)
+    req = requests.get(url, headers=http_header, cookies=cookies, verify=False)
     return req
 
 #################
