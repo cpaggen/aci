@@ -1,4 +1,4 @@
-#!/usr/bin/env Python
+#!/usr/bin/env python
 #
 # cpaggen - verified with ACI 2.0; very likely to work with all versions
 #
@@ -6,11 +6,16 @@
 # I could use one generic function to query the API passing the URL
 # For sake of clarity, I chose to break down the code in distinct functions
 #
+# Also, there's a simpler way to check whether a given user exists on ACI
+# I could just ask the API directly rather tha testing the value of totalCount
+#
 # to do: find actions for a given session ID
 #   logged in sessions /api/node/class/aaaSessionLR.json? \
-#     order-by=aaaSessionLR.created|desc
-#     &query-target-filter=and(eq(aaaSessionLR.affected,"uni/userext/user-voxbone"), bw(aaaSessionLR.created,"2016-07-20T14:00:00","2016-07-20T15:00:00"))
+#      order-by=aaaSessionLR.created|desc
+#      &query-target-filter=and(eq(aaaSessionLR.affected,"uni/userext/user-test"), \
+#      bw(aaaSessionLR.created,"2016-07-20T14:00:00","2016-07-20T15:00:00"))
 #
+# licensing terms: http://unlicense.org
 #
 
 import requests
