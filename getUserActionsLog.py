@@ -71,44 +71,47 @@ def getUserActionsLog(ip_addr, cookie, userid):
     req = requests.get(url, headers=http_header, cookies=cookies, verify=False)
     return req
 
-#################
-#  MAIN MODULE  #
-#################
 
-if len(sys.argv) != 5:
-    ip=raw_input("IP address of APIC? ")
-    user=raw_input("Admin username? ")
-    password=raw_input("Password? ")
-    userid=raw_input("User you want to query? ")
-else:
-    ip,user,password,userid = sys.argv[1:]
-
-cookie=getAPICCookie(ip, user, password)
-if cookie:
-    print "We have a cookie:\n  %s\n" % cookie
-    apicurl="/api/node/mo/uni/userext/user-%s.json" % userid
-    print "Verifying that user userid %s exists (querying URL %s)" % (userid, apicurl)
-    r=verifyUser(ip, cookie, apicurl)
-    if r:
-        lineSeparator = 120 * "="
-        r=getUserActionsLog(ip, cookie, userid)
-        parsed_json = json.loads(r.text)
-        totalCount = int(parsed_json['totalCount'])
-        print "Found %d log entries for user\n" % totalCount
-        for aaaModLR in parsed_json['imdata']:
-            print "Object: " + aaaModLR['aaaModLR']['attributes']['affected']
-            print "Description: " + aaaModLR['aaaModLR']['attributes']['descr']
-            print "Changeset: " + aaaModLR['aaaModLR']['attributes']['changeSet']
-            print "Timestamp: " + aaaModLR['aaaModLR']['attributes']['created']
-            print "Action: " + aaaModLR['aaaModLR']['attributes']['ind']
-            print lineSeparator
+def main():
+    if len(sys.argv) != 5:
+        ip=raw_input("IP address of APIC? ")
+        user=raw_input("Admin username? ")
+        password=raw_input("Password? ")
+        userid=raw_input("User you want to query? ")
     else:
-        print "User not found. Please check that it exists within this list:\n"
-        apicurl='/api/node/class/aaaUser.json'
+        ip,user,password,userid = sys.argv[1:]
+
+    cookie=getAPICCookie(ip, user, password)
+    if cookie:
+        print "We have a cookie:\n  %s\n" % cookie
+        apicurl="/api/node/mo/uni/userext/user-%s.json" % userid
+        print "Verifying that user userid %s exists (querying URL %s)" % (userid, apicurl)
         r=verifyUser(ip, cookie, apicurl)
-        parsed_json=json.loads(r.text)
-        for user in parsed_json['imdata']:
-            print user['aaaUser']['attributes']['name']
-else:
-    print "Authentication failure or communication error. Is HTTP enabled on APIC?"
+        if r:
+            lineSeparator = 120 * "="
+            r=getUserActionsLog(ip, cookie, userid)
+            parsed_json = json.loads(r.text)
+            totalCount = int(parsed_json['totalCount'])
+            print "Found %d log entries for user\n" % totalCount
+            for aaaModLR in parsed_json['imdata']:
+                print "Object: " + aaaModLR['aaaModLR']['attributes']['affected']
+                print "Description: " + aaaModLR['aaaModLR']['attributes']['descr']
+                print "Changeset: " + aaaModLR['aaaModLR']['attributes']['changeSet']
+                print "Timestamp: " + aaaModLR['aaaModLR']['attributes']['created']
+                print "Action: " + aaaModLR['aaaModLR']['attributes']['ind']
+                print lineSeparator
+        else:
+            print "User not found. Please check that it exists within this list:\n"
+            apicurl='/api/node/class/aaaUser.json'
+            r=verifyUser(ip, cookie, apicurl)
+            parsed_json=json.loads(r.text)
+            for user in parsed_json['imdata']:
+                print user['aaaUser']['attributes']['name']
+    else:
+        print "Authentication failure or communication error. Is HTTP enabled on APIC?"
+
+
+if __name__ == '__main__':
+    sys.exit(main())
+
 
