@@ -19,12 +19,12 @@ def sendMail(mailFrom,mailTo,subject,text,server):
     server.sendmail(mailFrom,mailTo,msg.as_string())
     server.quit()
 
-session = Session("https://10.48.58.5", "sdn", "cisco")
+session = Session("https://apic_ip", "user", "password")
 session.login()
 
 print session.token
 
-sub_url = '/api/node/class/fvTenant.json?query-target-filter=and(eq(fvTenant.name,"cpaggen"))&query-target=subtree&subscription=yes'
+sub_url = '/api/node/class/fvTenant.json?query-target-filter=and(eq(fvTenant.name,"foobar"))&query-target=subtree&subscription=yes'
 
 session.subscribe(sub_url)
 
@@ -33,4 +33,4 @@ while True:
         print "--- New event ---"
         event = session.get_event(sub_url)
         print event
-	sendMail("aci@mylab.cisco.com","cpaggen@cisco.com","ACI event!",json.dumps(event),"mail.cisco.com")
+	sendMail("aci@mylab.example.org","admin@example.org","ACI event!",json.dumps(event),"mail.example.org")
