@@ -113,7 +113,7 @@ def main():
             for user in parsed_json['imdata']:
                 print user['aaaUser']['attributes']['name']
     else:
-        print "Authentication failure or communication error. Is HTTP enabled on APIC?"
+        print "Authentication failure or communication error. Is HTTPs enabled on APIC?"
 
 
 if __name__ == '__main__':
