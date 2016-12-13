@@ -69,7 +69,7 @@ def verifyUser(ip_addr, cookie, apicurl):
 
 def getUserActionsLog(ip_addr, cookie, userid):
     relUrl = '/api/node/class/aaaModLR.json?query-target-filter=eq(aaaModLR.user,"%s")&order-by=aaaModLR.created|desc' % userid
-    url = 'http://'+ip_addr+relUrl
+    url = 'https://'+ip_addr+relUrl
     http_header["Host"] = ip_addr
     cookies = {}
     cookies['APIC-cookie'] = cookie
