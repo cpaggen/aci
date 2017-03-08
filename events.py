@@ -28,7 +28,7 @@ def sendMail(mailFrom,mailTo,subject,text,server):
     server.sendmail(mailFrom,mailTo,msg.as_string())
     server.quit()
 
-session = Session("https://10.50.139.156", "admin", password)
+session = Session("https://192.168.1.1", "admin", password)
 session.login()
 
 print session.token
@@ -42,4 +42,4 @@ while True:
         print "--- New event ---"
         event = session.get_event(sub_url)
         print event
-	sendMail("aci@cpoclon.cisco.com","aleza@cisco.com","ACI event!",json.dumps(event),"mail.cisco.com")
+	sendMail("aci@org.org","yourmail@org.org","ACI event!",json.dumps(event),"mail.org")
