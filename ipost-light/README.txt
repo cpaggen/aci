@@ -8,7 +8,8 @@ What is ipost-light?
   - ipost-light.py renders the specified template with the variables supplied
   - the resulting XML data is then POSTed to the specified APIC
   - the URL to POST to is contained on the second line of the XML template (see below)
-
+  - you can use the tool to post a static (non-parameterized) template
+        - in this case, just pass an empty dictionnary {} through template_params
 
 Dependencies:
 
