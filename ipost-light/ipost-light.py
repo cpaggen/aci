@@ -21,7 +21,6 @@ APIC_ADMIN_PASS = aci.apic_admin_password
 TEMPLATE_FILE = aci.template_file
 TEMPLATE_PARAMS = aci.template_params
 
-temp_params = {'tnPrefix': 'iPost-light', 'tnQuant': 10}
 
 def getAPICCookie(ip_addr, username, password):
     url = 'http://'+ip_addr+'/api/aaaLogin.xml'
@@ -38,18 +37,18 @@ def sendAPICRequest(ip_addr, cookie, apicurl, data):
     req = requests.post(url,data=data,cookies=cookies)
     return req.text
 
-def render(tpl_path, context):
-    path, filename = os.path.split(tpl_path)
+def renderTemplate(template, params):
+    path, filename = os.path.split(template)
     return jinja2.Environment(
         loader=jinja2.FileSystemLoader(path or './')
-    ).get_template(filename).render(context)
+    ).get_template(filename).render(params)
 
 def getRESTUrl(filename):
     with open(filename) as myfile:
         secondLine=myfile.readlines()[1:2]
         match = re.search('<!-- (.*) -->', str(secondLine))
         if not match:
-            raise ParseError('ERROR: Unable to locate REST URL in XML template')
+            raise Exception('ERROR: Unable to locate REST URL in XML template')
         url = match.group(1)
         print("##DEBUG## URL we are posting to is {}".format(url))
         return url
@@ -60,13 +59,15 @@ def main():
     if cookie:
         print("##DEBUG## APIC cookie is {}".format(cookie))
         print("##DEBUG## Template params are {}".format(TEMPLATE_PARAMS))
-        result = render(TEMPLATE_FILE, eval(TEMPLATE_PARAMS))
+        result = renderTemplate(TEMPLATE_FILE, eval(TEMPLATE_PARAMS))
         print("##DEBUG## Rendered templated is {}".format(result))
         r=sendAPICRequest(APIC_IP, cookie, url, result)
         if r:
-            print r
+            print("##DEBUG## All done - result is {}".format(r))
         else:
-            print "That didn't work, we received no response back!"
+            raise Exception('ERROR: POST to APIC failed')
+    else:
+        raise Exception('ERROR: Failed to log into APIC')
 
 if __name__ == "__main__":
     sys.exit(main())
