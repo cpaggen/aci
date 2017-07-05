@@ -1,0 +1,5 @@
+apic_ip_address = "192.168.1.1"
+apic_admin_user = "sdn"
+apic_admin_password = "cisco"
+template_file = "template.xml"
+template_params = "{'tnPrefix': 'iPost-light', 'tnQuant': 10}" 

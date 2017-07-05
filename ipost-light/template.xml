@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- /api/policymgr/mo/.xml -->
+<polUni>
+{% for tenant in range (0, tnQuant) %}
+    <fvTenant name="{{tnPrefix}}-{{loop.index}}">
+        <fvCtx name="main"/>
+        <fvBD name="BD1" unicastRoute='no' unkMacUcastAct='flood' arpFlood='yes'>
+            <fvSubnet ip="192.168.1.1/24"/>
+            <fvRsCtx tnFvCtxName="main"/>
+        </fvBD>
+        <fvAp name="MyApp">
+            <fvAEPg name="EPG1">
+                <fvRsBd tnFvBDName="BD1"/>
+            </fvAEPg>
+        </fvAp>
+    </fvTenant>
+{% endfor -%}
+</polUni>
+
