@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- /api/policymgr/mo/.xml -->
+<polUni>
+    <fvTenant name="ipost-light-tenant">
+        <fvCtx name="main"/>
+        {% for bd in range(0,numBD) %}
+        <fvBD name="BD-{{loop.index}}" unicastRoute='no' unkMacUcastAct='flood' arpFlood='yes'>
+            <fvSubnet ip="192.168.{{loop.index}}.1/24"/>
+            <fvRsCtx tnFvCtxName="main"/>
+        </fvBD>
+        {% endfor -%}
+        <fvAp name="MyApp">
+        {% for bd in range(0,numBD) %}
+            <fvAEPg name="EPG-{{loop.index}}">
+                <fvRsBd tnFvBDName="BD-{{loop.index}}"/>
+                <fvRsCons prio="unspecified" tnVzBrCPName="default"/>
+                <fvRsProv prio="unspecified" tnVzBrCPName="default"/>
+            </fvAEPg>
+        {% endfor -%}
+        </fvAp>
+    </fvTenant>
+</polUni>
+
