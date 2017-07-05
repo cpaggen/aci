@@ -5,7 +5,8 @@
 # in one shot. See README file for details.
 #
 # code quality is proof-of-concept (tested/verified on CentOS 7.x and Windows 7)
-# 
+# validated against ACI 2.3(1) release
+#
 # cpaggen July 2017 v1.0
 #
 # 
