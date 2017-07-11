@@ -41,6 +41,7 @@ import jinja2
 import re
 import os
 import requests.packages.urllib3
+import json
 
 # Classic hack to disable cert validation warnings
 # use only if you really, really trust the remote server
@@ -88,6 +89,13 @@ def getRESTUrl(filename):
         return url
 
 def main():
+    if len(sys.argv) > 1:
+        params = json.loads(sys.argv[1])
+        print("##DEBUG## Parameters detected via command line: {}".format(params))
+        TEMPLATE_PARAMS=json.dumps(params)
+    else:
+        TEMPLATE_PARAMS=aci.template_params
+
     url = getRESTUrl(TEMPLATE_FILE)
     cookie=getAPICCookie(APIC_IP, APIC_ADMIN, APIC_ADMIN_PASS)
     if cookie:
