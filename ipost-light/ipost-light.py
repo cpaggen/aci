@@ -40,27 +40,35 @@ import aci_credentials as aci
 import jinja2
 import re
 import os
+import requests.packages.urllib3
+
+# Classic hack to disable cert validation warnings
+# use only if you really, really trust the remote server
+requests.packages.urllib3.disable_warnings()
 
 APIC_IP = aci.apic_ip_address
 APIC_ADMIN = aci.apic_admin_user
-APIC_ADMIN_PASS = aci.apic_admin_password
-TEMPLATE_FILE = aci.template_file
-TEMPLATE_PARAMS = aci.template_params
+APIC_ADMIN_PASS = aci.apic_admin_password    
+TEMPLATE_FILE = aci.template_file            # XML template filename
+TEMPLATE_PARAMS = aci.template_params        # a dictionary of key/value pairs
 
 
 def getAPICCookie(ip_addr, username, password):
-    url = 'http://'+ip_addr+'/api/aaaLogin.xml'
+    url = 'https://'+ip_addr+'/api/aaaLogin.xml'
 
     xml_string = "<aaaUser name='%s' pwd='%s'/>" % (username, password)
     req = requests.post(url, data=xml_string, verify=False)
-    rawcookie=req.cookies['APIC-cookie']
+    try:
+        rawcookie=req.cookies['APIC-cookie']
+    except KeyError:
+        rawcookie=''
     return rawcookie
 
 def sendAPICRequest(ip_addr, cookie, apicurl, data):
-    url = 'http://'+ip_addr+apicurl
+    url = 'https://'+ip_addr+apicurl
     cookies = {}
     cookies['APIC-cookie'] = cookie
-    req = requests.post(url,data=data,cookies=cookies)
+    req = requests.post(url,data=data,cookies=cookies, verify=False)
     return req.text
 
 def renderTemplate(template, params):
