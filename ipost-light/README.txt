@@ -15,7 +15,7 @@ Dependencies:
 
   - requests
   - Jinja2
-
+  - json
 
 About aci_credentials.py
 
@@ -28,6 +28,11 @@ About aci_credentials.py
     template_params = "{'tnPrefix': 'iPost-light', 'tnQuant': 10}"
 
   - template_params must contain a dictionary of Jinja2 variables passed to the template
+  - side node regarding parameters:
+        - you can pass parameters via the command line, in the same format as in aci_credentials.py
+        - the primary use case is when invoking ipost-light.py within shell scripts
+        - see example bash-test.sh and bash-test-template.xml 
+
   - here is the template that matches those variables:
 
     <?xml version="1.0" encoding="UTF-8"?>
