@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- /api/policymgr/mo/.xml -->
+<polUni>
+  <fvTenant name="{{tn}}">     
+    <fvCtx name="VRF-One"/>
+       <fvBD name="BD{{bd}}" unkMacUcastAct="flood" arpFlood="yes" unkMcastAct="flood" unicastRoute="yes" multiDstPktAct="bd-flood">
+         <fvRsCtx tnFvCtxName="VRF-One"/>
+         <fvSubnet virtual="no" scope="private" ip="{{subnet}}/24"/>
+       </fvBD>
+  </fvTenant>
+</polUni>
