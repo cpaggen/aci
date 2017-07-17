@@ -90,8 +90,8 @@ def getRESTUrl(filename):
 
 def main():
     if len(sys.argv) > 1:
+        print("##DEBUG## Parameters detected via command line: {}".format(sys.argv[1]))
         params = json.loads(sys.argv[1])
-        print("##DEBUG## Parameters detected via command line: {}".format(params))
         TEMPLATE_PARAMS=json.dumps(params)
     else:
         TEMPLATE_PARAMS=aci.template_params
