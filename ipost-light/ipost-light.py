@@ -42,6 +42,7 @@ import re
 import os
 import requests.packages.urllib3
 import json
+import argparse
 
 # Classic hack to disable cert validation warnings
 # use only if you really, really trust the remote server
@@ -50,8 +51,6 @@ requests.packages.urllib3.disable_warnings()
 APIC_IP = aci.apic_ip_address
 APIC_ADMIN = aci.apic_admin_user
 APIC_ADMIN_PASS = aci.apic_admin_password    
-TEMPLATE_FILE = aci.template_file            # XML template filename
-TEMPLATE_PARAMS = aci.template_params        # a dictionary of key/value pairs
 
 
 def getAPICCookie(ip_addr, username, password):
@@ -91,10 +90,16 @@ def getRESTUrl(filename):
 def main():
     if len(sys.argv) > 1:
         print("##DEBUG## Parameters detected via command line: {}".format(sys.argv[1]))
-        params = json.loads(sys.argv[1])
+        parser = argparse.ArgumentParser()
+        parser.add_argument("-t", "--template", help="template file")
+        parser.add_argument("-p", "--params", help="parameters for template")
+        args = parser.parse_args()
+        params = json.loads(args.params)
         TEMPLATE_PARAMS=json.dumps(params)
+        TEMPLATE_FILE=args.template
     else:
         TEMPLATE_PARAMS=aci.template_params
+        TEMPLATE_FILE=aci.template_file
 
     url = getRESTUrl(TEMPLATE_FILE)
     cookie=getAPICCookie(APIC_IP, APIC_ADMIN, APIC_ADMIN_PASS)

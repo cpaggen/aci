@@ -4,7 +4,10 @@ What is ipost-light?
   - ipost-light.py reads config parameters from file aci_credentials.py
   - aci_credentials.py provides APIC IP, admin username, admin password,
                                 Jinja2 XML template filename, template variables
-
+  - alternatively, you can provide the template file and the parameters via command line arguments
+        - use --template and --params 
+        - make sure your format params exactly as in aci_credentials.py (look at the Bash samples)
+        - note: when command line arguments are provided, values in aci_credentials are ignored
   - ipost-light.py renders the specified template with the variables supplied
   - the resulting XML data is then POSTed to the specified APIC
   - the URL to POST to is contained on the second line of the XML template (see below)
@@ -16,6 +19,7 @@ Dependencies:
   - requests
   - Jinja2
   - json
+  - argparse
 
 About aci_credentials.py
 

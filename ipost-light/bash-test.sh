@@ -15,7 +15,7 @@ for highByte in 10 20 30 40; do
     bd=$(($count+$vlanOffset))
     params=$(printf '{"tn": "POC-i%s", "bd": "%s", "subnet": "%s"}' $tn $bd $i)
     echo "DEBUG: $params"
-    python ipost-light.py "$params"
+    python ipost-light.py --template bash-test-template.xml --params "$params"
     let count=count+1 
     if [ $count -gt 400 ]
     then
