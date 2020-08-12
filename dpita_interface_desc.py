@@ -52,9 +52,9 @@ def main():
        APIC_PASS = getpass.getpass("Enter password: ", stream=None)
        '''
 
-    APIC_URL = "10.48.168.221"
+    APIC_URL = "10.1.1.10"
     APIC_USER = "admin"
-    APIC_PASS = "ins3965!"
+    APIC_PASS = "password"
 
     session = login(APIC_URL, APIC_USER, APIC_PASS)
 
