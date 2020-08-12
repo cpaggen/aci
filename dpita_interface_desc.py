@@ -1,3 +1,6 @@
+#
+# Code written entirely by Daniel Pita (dpita at cisco dot com)
+# 
 import requests
 import json
 import collections
